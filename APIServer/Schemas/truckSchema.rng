@@ -1,0 +1,23 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <start>
+    <element name="Truck">
+      <interleave>
+        <element name="Id">
+          <text/>
+        </element>
+        <element name="Make">
+          <text/>
+        </element>
+        <element name="Model">
+          <text/>
+        </element>
+        <element name="Year">
+          <text/>
+        </element>
+        <element name="Color">
+          <text/>
+        </element>
+      </interleave>
+    </element>
+  </start>
+</grammar>
