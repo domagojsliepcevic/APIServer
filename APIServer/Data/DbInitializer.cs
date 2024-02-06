@@ -8,7 +8,7 @@ namespace APIServer.Data
     {
         public static void Initialize(DatabaseContext context)
         {
-            // Look for any students.
+            // Look for any cars.
             if (context.Cars.Any())
             {
                 return;   // DB has been seeded
@@ -44,6 +44,9 @@ namespace APIServer.Data
 
             context.Trucks.AddRange(trucks);
             context.SaveChanges();
+
+
+          
 
         }
     }

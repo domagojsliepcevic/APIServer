@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Trucks>
+  <Truck>
+    <Make>Ford</Make>
+    <Model>F-150</Model>
+    <Year>2022</Year>
+    <Color>Red</Color>
+  </Truck>
+  <Truck>
+    <Make>Toyota</Make>
+    <Model>Tacoma</Model>
+    <Year>2022</Year>
+    <Color>Blue</Color>
+  </Truck>
+</Trucks>

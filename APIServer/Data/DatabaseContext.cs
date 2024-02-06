@@ -19,6 +19,7 @@ namespace APIServer.Data
 
         public virtual DbSet<Car>? Cars { get; set; }
         public virtual DbSet<Truck>? Trucks { get; set; }
+      
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,8 +43,7 @@ namespace APIServer.Data
                 entity.Property(e => e.ConcurrencyStamp).HasMaxLength(256);
                 entity.Property(e => e.PhoneNumber).HasMaxLength(30);
 
-                // Additional configurations
-                // Add more configurations as needed for your application
+                
             });
 
             modelBuilder.Entity<Car>(entity =>
@@ -70,9 +70,7 @@ namespace APIServer.Data
 
             });
 
-
-
-
+           
             // Seed AspNetUsers table with default admin user
             var hasher = new PasswordHasher<ApplicationUser>();
 
