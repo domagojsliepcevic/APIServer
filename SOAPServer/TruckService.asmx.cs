@@ -2,12 +2,15 @@
 using SOAPServer.Models;
 using SOAPServer.Repositories;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Services;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using System.Xml.XPath;
 
 namespace SOAPServer
@@ -55,28 +58,44 @@ namespace SOAPServer
         }
 
         [WebMethod]
-        public string SearchXmlFile(string xpathExpression)
+        public XmlDocument SearchXmlFile(string xpathExpression)
         {
-            // Load the XML file
+            // Get the physical path of the XML file in the project root
             string fileName = "searchTerm.xml";
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string filePath = HttpContext.Current.Server.MapPath($"~/{fileName}");
+
+            // Load the XML file
             XDocument xmlDocument = XDocument.Load(filePath);
 
-            // Execute the XPath expression and iterate over the results
+            // Execute the XPath expression and retrieve the results
             var results = xmlDocument.XPathSelectElements(xpathExpression);
 
-            // Convert the XML content to string
-            StringBuilder resultBuilder = new StringBuilder();
+            // Construct the XML document for the array of trucks
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement trucksElement = xmlDoc.CreateElement("Trucks");
             foreach (var element in results)
             {
-                resultBuilder.AppendLine(element.ToString(SaveOptions.DisableFormatting)); // Disable formatting to remove extra whitespaces
+                XmlElement truckElement = xmlDoc.CreateElement("Truck");
+                truckElement.AppendChild(CreateXmlElement(xmlDoc, "Make", element.Element("Make").Value));
+                truckElement.AppendChild(CreateXmlElement(xmlDoc, "Model", element.Element("Model").Value));
+                truckElement.AppendChild(CreateXmlElement(xmlDoc, "Year", element.Element("Year").Value));
+                truckElement.AppendChild(CreateXmlElement(xmlDoc, "Color", element.Element("Color").Value));
+                trucksElement.AppendChild(truckElement);
             }
-            string resultString = resultBuilder.ToString().Trim(); // Trim leading and trailing whitespaces
+            xmlDoc.AppendChild(trucksElement);
 
-            // Return the XML content as a string
-            return resultString;
-
+            // Return the XML document
+            return xmlDoc;
         }
+
+        // Helper method to create an XML element
+        private XmlElement CreateXmlElement(XmlDocument xmlDoc, string elementName, string value)
+        {
+            XmlElement xmlElement = xmlDoc.CreateElement(elementName);
+            xmlElement.InnerText = value;
+            return xmlElement;
+        }
+
 
     }
 }
