@@ -1,0 +1,14 @@
+<Trucks>
+  <Truck>
+    <Make>Ford</Make>
+    <Model>F-150</Model>
+    <Year>2022</Year>
+    <Color>Red</Color>
+  </Truck>
+  <Truck>
+    <Make>Toyota</Make>
+    <Model>Tacoma</Model>
+    <Year>2022</Year>
+	<Color>Red</Color>
+  </Truck>
+</Trucks>

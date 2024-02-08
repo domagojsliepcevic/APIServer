@@ -3,6 +3,7 @@ using SOAPServer.Models;
 using SOAPServer.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -84,9 +85,37 @@ namespace SOAPServer
             }
             xmlDoc.AppendChild(trucksElement);
 
+            // Save the XML document to a physical file
+            string xmlFilePath = HttpContext.Current.Server.MapPath("~/response.xml");
+            xmlDoc.Save(xmlFilePath);
+
+
             // Return the XML document
             return xmlDoc;
         }
+
+        [WebMethod]
+        public string JAXBValidate()
+        {
+            // Specify the path to the batch script
+            string batchFilePath = @"D:\Shared Folder\IIS\Project\APIServer\JAXBValidator\runJar.bat";
+
+            // Create a process to run the batch script
+            Process process = new Process();
+            process.StartInfo.FileName = batchFilePath;
+            process.Start();
+            process.WaitForExit();
+
+            // Read the contents of the validation result file
+            string validationResultFilePath = @"D:\Shared Folder\IIS\Project\APIServer\JAXBValidator\validationResult.txt";
+            string validationResult = File.ReadAllText(validationResultFilePath);
+
+            // Return the validation result
+            return validationResult;
+        }
+
+
+
 
         // Helper method to create an XML element
         private XmlElement CreateXmlElement(XmlDocument xmlDoc, string elementName, string value)
